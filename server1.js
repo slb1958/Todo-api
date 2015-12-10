@@ -14,6 +14,8 @@ app.get('/', function(req, res) {
     res.send('Todo API Root');
 });
 
+
+
 // GET /todos?completed=false&q=work
 app.get('/todos', function(req, res) {
     var query = req.query;
@@ -39,7 +41,6 @@ app.get('/todos', function(req, res) {
         res.status(500).send();
     });
 });
-
 // GET /todos/:id
 app.get('/todos/:id', function(req, res) {
     var todoId = parseInt(req.params.id, 10);
@@ -53,6 +54,7 @@ app.get('/todos/:id', function(req, res) {
     }, function(e) {
         res.status(500).send();
     });
+
 });
 
 // POST /todos
@@ -63,7 +65,8 @@ app.post('/todos', function(req, res) {
         res.json(todo.toJSON());
     }, function(e) {
         res.status(400).json(e);
-    });
+    })
+
 });
 
 // DELETE /todos/:id
@@ -85,10 +88,11 @@ app.delete('/todos/:id', function(req, res) {
     }, function() {
         res.status(500).send();
     });
+
 });
 
 // PUT /todos/:id
-app.put('/todos/:id', function (req, res) {
+app.put('/todos/:id', function(req, res) {
     var todoId = parseInt(req.params.id, 10);
     var body = _.pick(req.body, 'description', 'completed');
     var attributes = {};
@@ -116,28 +120,8 @@ app.put('/todos/:id', function (req, res) {
     });
 });
 
-
-
 db.sequelize.sync().then(function() {
     app.listen(PORT, function() {
         console.log('Express listening on port ' + PORT + '!');
     });
 });
-
-
-
-
-//     db.todo.findById(todoId).then(function (todo) {
-//         if (todo) {
-//             todo.update(attributes).then(function (todo) {
-//                 res.json(todo.toJSON());
-//             }, function (e) {
-//                 res.status(400).json(e);
-//             });
-//         } else {
-//             res.status(404).send();
-//         }
-//     }, function () {
-//         res.status(500).send();
-//     });
-// });
